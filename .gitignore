@@ -1,3 +1,4 @@
+xdebug/xdebug.log
 docker/nginx/logs/*
 src/*
 !src/demo-site
