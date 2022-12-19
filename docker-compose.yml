@@ -38,6 +38,7 @@ services:
       MYSQL_ROOT_PASSWORD: ggg@2022
     ports:
       - 3306:3306
+    restart: always
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -48,6 +49,7 @@ services:
       ADMINER_DEFAULT_SERVER: mysql
     ports:
       - 8081:8080
+    restart: always
     networks:
       - app-network
 networks:
