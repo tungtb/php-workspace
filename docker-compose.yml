@@ -15,7 +15,10 @@ services:
       - ./src:/var/www/html
       - ./docker/nginx/logs:/var/log/nginx
     networks:
-      - app-network
+      app-network:
+        aliases:
+          - ecom-cms.com
+          - ecom-backend.com
   php:
     container_name: php
     build: ./docker/php
@@ -50,6 +53,29 @@ services:
     ports:
       - 8081:8080
     restart: always
+    networks:
+      - app-network
+  redis:
+    image: "redis:alpine"
+    restart: always
+    command: redis-server --requirepass ggg@2022
+    volumes:
+        - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+        - "6379:6379"
+    networks:
+      - app-network
+  redis-commander:
+    image: "rediscommander/redis-commander:latest"
+    restart: always
+    environment: 
+        - REDIS_HOST=redis
+        - REDIS_PORT=6379
+        - REDIS_PASSWORD=ggg@2022
+        - HTTP_USER=admin
+        - HTTP_PASSWORD=ggg@2022
+    ports:
+        - "28086:8081"
     networks:
       - app-network
 networks:
