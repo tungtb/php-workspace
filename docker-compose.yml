@@ -49,6 +49,7 @@ services:
       - app-network
   adminer:
     container_name: adminer
+    command: php -S 0.0.0.0:8080 -t /var/www/html
     image: adminer:latest
     environment:
       ADMINER_DEFAULT_SERVER: mysql
