@@ -85,6 +85,17 @@ services:
         - "28086:8081"
     networks:
       - app-network
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    restart: always
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    ports:
+        - "9200:9200"
+    networks:
+      - app-network
 networks:
   app-network:
     driver: bridge
