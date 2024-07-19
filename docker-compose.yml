@@ -3,6 +3,7 @@ services:
   nginx:
     container_name: nginx
     build: ./docker/nginx
+    image: nginx-v1
     command: nginx -g "daemon off;"
     links:
       - php
@@ -22,6 +23,7 @@ services:
   php:
     container_name: php
     build: ./docker/php
+    image: php-v1
     links:
       - mysql
     ports:
@@ -30,6 +32,8 @@ services:
     volumes:
       - ./src:/var/www/html
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./docker/php/supervisor/conf.d:/etc/supervisor/conf.d
       - ./xdebug:/var/logs/xdebug
     working_dir: /var/www/html
     networks:
