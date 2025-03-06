@@ -7,6 +7,7 @@ services:
     command: nginx -g "daemon off;"
     links:
       - php
+      - php74
     ports:
       - "80:80"
     restart: always
@@ -35,6 +36,19 @@ services:
       - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/php/supervisor/conf.d:/etc/supervisor/conf.d
       - ./xdebug:/var/logs/xdebug
+    working_dir: /var/www/html
+    networks:
+      - app-network
+  php74: # fastcgi_pass php74:9000;
+    container_name: php74
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile-7.4
+    links:
+      - mysql
+    restart: always
+    volumes:
+      - ./src:/var/www/html
     working_dir: /var/www/html
     networks:
       - app-network
